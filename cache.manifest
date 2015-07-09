@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# rev 24
+index.html
+
+assets/css/style.css
+assets/img/bead.png
+assets/img/bg.jpg
+
+assets/img/bigBead.png
+assets/img/icon57.png
+assets/img/icon114.png
+assets/img/icon270.png
+
+assets/js/RequestAnimationFrame.js
+assets/js/BeadScale.js
+assets/js/Beads.js
+assets/js/ChooseMenu.js
+assets/js/BeadSlideControl.js
+assets/js/EditAndCreateMenu.js
+assets/js/app.js
+
+assets/js/lib/jquery-1.11.3.min.js
+assets/js/lib/pixi.js
+assets/js/lib/tween.min.js
