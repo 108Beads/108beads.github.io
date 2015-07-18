@@ -47,24 +47,14 @@
             })
         },
         hide: function(speed){
-            var self = this;
-            new TWEEN.Tween({top:0})
-                .to({top:-100}, speed)
-                .easing(TWEEN.Easing.Cubic.InOut)
-                .onUpdate(function(){
-                    self.menu.css('top', this.top + '%');
-                })
-                .start();
+            this.menu.animate({
+                top:'-100%'
+            }, speed);
         },
         show: function(speed){
-            var self = this;
-            new TWEEN.Tween({top:-100})
-                .to({top:0}, speed)
-                .easing(TWEEN.Easing.Cubic.InOut)
-                .onUpdate(function(){
-                    self.menu.css('top', this.top + '%');
-                })
-                .start();
+            this.menu.animate({
+                top:'0%'
+            }, speed);
         }
     };
 

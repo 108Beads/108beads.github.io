@@ -1,1 +1,1 @@
-# 108beads.github.io
+# mala-beads

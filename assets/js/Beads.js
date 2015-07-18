@@ -187,15 +187,14 @@
         animateBead: function(bead, position){
             var self = this;
 
-            new TWEEN.Tween(bead.position).to({y:position}, this.animateSpeed)
-                .easing(TWEEN.Easing.Linear.None)
-                .onComplete(function() {
-                    self.whenAllFinish();
-                })
-                .start();
+            createjs.Tween.get(bead.position).to({y:position}, this.animateSpeed).call(function(){
+                self.whenAllFinish();
+            });
+
         },
 
         whenAllFinish: function(){
+            console.log(this.topBeads);
             this.numberOfBeadTransitions ++;
 
             if(this.topBeads.length + this.bottomBeads.length == this.numberOfBeadTransitions){
@@ -238,15 +237,11 @@
         },
         hide: function(speed){
             for(var i = 0; i < this.topBeads.length; i++){
-                new TWEEN.Tween(this.topBeads[i]).to({alpha:0}, speed)
-                    .easing(TWEEN.Easing.Linear.None)
-                    .start();
+                createjs.Tween.get(this.topBeads[i]).to({alpha:0}, speed);
             }
 
             for(i = 0; i < this.bottomBeads.length; i++){
-                new TWEEN.Tween(this.bottomBeads[i]).to({alpha:0}, speed)
-                    .easing(TWEEN.Easing.Linear.None)
-                    .start();
+                createjs.Tween.get(this.bottomBeads[i]).to({alpha:0}, speed);
             }
         },
         show: function(speed){
@@ -254,18 +249,14 @@
             for(var i = 0; i < this.topBeads.length; i++){
                 beadId = this.count + i;
                 if(beadId >= 0 && beadId < this.beads.length){
-                    new TWEEN.Tween(this.topBeads[i]).to({alpha:1}, speed)
-                        .easing(TWEEN.Easing.Linear.None)
-                        .start();
+                    createjs.Tween.get(this.topBeads[i]).to({alpha:1}, speed);
                 }
             }
 
             for(i = 0; i < this.bottomBeads.length; i++){
                 beadId = this.count - 1 - i;
                 if(beadId >= 0 && beadId < this.beads.length){
-                    new TWEEN.Tween(this.bottomBeads[i]).to({alpha:1}, speed)
-                        .easing(TWEEN.Easing.Linear.None)
-                        .start();
+                    createjs.Tween.get(this.bottomBeads[i]).to({alpha:1}, speed);
                 }
             }
         },
@@ -291,232 +282,3 @@
 
     window.Beads = Beads;
 })();
-
-
-//new tween.Tween(this.topBeads[i].position).to({y:this.topBeadsMoveTo[i]}, speed)
-//    .easing(tween.Easing.Linear.None)
-//    .onComplete(function() {
-//        self.whenAllFinish();
-//    })
-//    .start();
-//new tween.Tween(this.bottomBeads[i].position).to({y:this.bottomBeadsMoveTo[i]}, speed)
-//    .easing(tween.Easing.Linear.None)
-//    .onComplete(function() {
-//        self.whenAllFinish();
-//    })
-//    .start();
-
-
-//    //need to refactor
-//    beadMoveDistance: function(beadSet, beadSetId){
-//        var current = 0;
-//        if(beadSet == 'top'){
-//            current = this.count + beadSetId;
-//        }else if(beadSet == 'bottom'){
-//            current = this.count - beadSetId -1;
-//        }
-//
-//        //position of the bottom bead
-//        var startPosition = this.topBeadsMoveTo[this.topBeadsMoveTo.length - 1];
-//        if(beadSet == 'bottom'){
-//            if(beadSetId == 0){
-//                startPosition = this.topBeadsMoveTo[0];
-//            }else{
-//                startPosition = this.bottomBeadsMoveTo[this.bottomBeadsMoveTo.length - 1];
-//            }
-//        }
-//
-//        //radius of the current and bottom beads;
-//        var currentRadius, otherRadius;
-//        var other  = current - 1;
-//        if(beadSet == 'bottom') other = current + 1;
-//
-//        if(current >= 1 && current < this.beads.length){
-//            currentRadius = this.beadSize[this.beads[current]][0]/2;
-//            otherRadius = this.beadSize[this.beads[other]][0]/2;
-//        }else{
-//            currentRadius = this.beadSize[0][0]/2;
-//            otherRadius = this.beadSize[0][0]/2;
-//        }
-//
-//        var direction  = 1;
-//        if(beadSet == 'bottom') direction *= -1;
-//
-//        //if(beadSet == 'bottom') console.log(startPosition - currentRadius * direction - otherRadius * direction);
-//
-//        return startPosition - currentRadius * direction - otherRadius * direction;
-//    },
-//    calculateBeadMoveDistances:function(){
-//        this.topBeadsMoveTo = [];
-//        this.bottomBeadsMoveTo = [];
-//
-//        for(var i = 0; i < this.topBeads.length; i++){
-//            if(i === 0){
-//                this.topBeadsMoveTo.push(this.winHeight/2 + this.beadBrakeDistance(
-//                        this.beads[this.count + 1],
-//                        this.beads[this.count]));
-//            }else if(i == 1){
-//                this.topBeadsMoveTo.push(this.winHeight/2);
-//            }else{
-//                this.topBeadsMoveTo.push(this.beadMoveDistance('top', i));
-//            }
-//        }
-//
-//        for(var i = 0; i < this.bottomBeads.length; i++){
-//            this.bottomBeadsMoveTo.push(this.beadMoveDistance('bottom', i));
-//        }
-//    },
-//    placeBeads: function(){
-//        var i;
-//        var beadsID = 0;
-//        var isBead = true;
-//
-//        for(i = 0; i < this.topBeads.length; i++){
-//            beadsID = this.count + i;
-//            if(beadsID < 0 || beadsID > this.beads.length - 1){
-//                beadsID = 0;
-//                isBead = false;
-//            }
-//
-//            console.log(beadsID);
-//            this.topBeads[i].texture = PIXI.Texture.fromImage(this.beadTexture[this.beads[beadsID]]);
-//
-//            if(i === 0){
-//                this.topBeads[i].position.x = this.winWidth/2;
-//                this.topBeads[i].position.y = this.winHeight/2;
-//            }else{
-//                this.placeBeadOnTop(this.count + i, this.topBeads[i], this.topBeads[i - 1]);
-//            }
-//
-//            if(!isBead){
-//                this.topBeads[i].alpha = 0;
-//                isBead = true;
-//            }else{
-//                this.topBeads[i].alpha = 1;
-//            }
-//
-//        }
-//
-//        for(i = 0; i < this.bottomBeads.length; i++){
-//            beadsID = this.count - i -1;
-//            //console.log()
-//            if(beadsID < 0 || beadsID > this.beads.length - 1){
-//                beadsID = 0;
-//                isBead = false;
-//            }
-//
-//            this.bottomBeads[i].texture = PIXI.Texture.fromImage(this.beadTexture[this.beads[beadsID]]);
-//
-//            if(i === 0){
-//                this.bottomBeads[i].position.x = this.winWidth/2;
-//                this.bottomBeads[i].position.y = this.winHeight/2 +
-//                                                 this.beadBrakeDistance(
-//                                                    this.beads[this.count],
-//                                                    this.beads[beadsID]);
-//            }else{
-//                this.placeBeadUnder(this.count - i -1, this.bottomBeads[i], this.bottomBeads[i - 1]);
-//                //console.log('');
-//            }
-//
-//            if(!isBead){
-//                this.bottomBeads[i].alpha = 0;
-//                isBead = true;
-//            }else{
-//                this.bottomBeads[i].alpha = 1;
-//            }
-//        }
-//    },
-//    beadBrakeDistance: function(sizeTop, sizeBottom){
-//        sizeTop = sizeTop || 0;
-//
-//        //radius of current bead
-//        var cr = this.beadSize[sizeTop][0] / 2;
-//
-//        var pr = this.beadSize[sizeBottom][0] / 2;
-//
-//        //radius of small bead
-//        var rs = this.beadSize[0] / 2;
-//
-//
-//        return cr + rs + pr;
-//    },
-//    placeBeadOnTop: function(currentId, currentBead, topBead){
-//
-//        var current = this.beads[currentId];
-//        if(currentId >= this.beads.length) current = 0;
-//
-//        var previousId = currentId - 1;
-//        var top = this.beads[previousId];
-//        if(previousId >= this.beads.length) top = 0;
-//
-//
-//
-//        //starting position
-//        var sp = topBead.position.y;
-//        //previous bead width divided in half
-//        var pw = this.beadSize[top][0]/2;
-//        //current bead width divided in half
-//        var cw = this.beadSize[current][0]/2;
-//
-//        currentBead.position.x = this.winWidth/2;
-//        currentBead.position.y = sp - pw - cw;
-//    },
-//    placeBeadUnder: function(currentId, currentBead, previousBead){
-//        //console.log(currentId);
-//        if(currentId < 0) currentId = 0;
-//
-//        var previousId = currentId + 1;
-//        if(previousId < 0) previousId = 0;
-//
-//        //starting position
-//        var sp = previousBead.position.y;
-//        //previous bead width divided in half
-//        var pw = this.beadSize[this.beads[previousId]][0]/2;
-//        //current bead width divided in half
-//        var cw = this.beadSize[this.beads[currentId]][0]/2;
-//
-//        currentBead.position.x = this.winWidth/2;
-//        currentBead.position.y = sp + pw + cw;
-//    },
-//    moveBeadDown: function(tween){
-//        var speed = 300;
-//        var self = this;
-//
-//        this.calculateBeadMoveDistances();
-//
-//        for(var i = 0; i < this.topBeads.length; i++){
-//            new tween.Tween(this.topBeads[i].position).to({y:this.topBeadsMoveTo[i]}, speed)
-//                .easing(tween.Easing.Linear.None)
-//                .onComplete(function() {
-//                    self.whenAllFinish();
-//                })
-//                .start();
-//        }
-//
-//        for(var i = 0; i < this.bottomBeads.length; i++){
-//            new tween.Tween(this.bottomBeads[i].position).to({y:this.bottomBeadsMoveTo[i]}, speed)
-//                .easing(tween.Easing.Linear.None)
-//                .onComplete(function() {
-//                    self.whenAllFinish();
-//                })
-//                .start();
-//        }
-//    },
-//    whenAllFinish: function(){
-//        this.numberOfBeadTransitions ++;
-//
-//        if(this.topBeads.length + this.bottomBeads.length == this.numberOfBeadTransitions){
-//            this.numberOfBeadTransitions = 0;
-//            this.placeBeads();
-//
-//            this.callback({name: 'beads', number: this.beads.length - this.count});
-//            if(this.beads.length == this.count){
-//                this.callback({name: 'vibrate', number: 4});
-//            }else{
-//                this.callback({name: 'vibrate', number: this.beads[this.count-1] + 1});
-//            }
-//
-//            this.callback({name: 'swipe done'});
-//
-//        }
-//    }
